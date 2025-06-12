@@ -1,32 +1,20 @@
-namespace contain {
-	template<class K>
-	class MyContainer {
-		private:
-			int SIZE;
-			int ITEMS;
-			K ARR[];
-		public:
-			MyContainer() : ITEMS(0), SIZE(0) {}
-			MyContainer(K arr[]) {
-				int size = sizeof(arr) / sizeof(arr[0]);
-				SIZE = size;
-				ITEMS = size;
-				for (int i = 0; i < size; i++) {
-					ARR[i] = arr[i];
-				}
+#include <algorithm>
+#include <vector>
+using namespace std;
 
-}
-			void add(K item) {
-				if (ITEMS < SIZE-1) {
-					ARR[ITEMS] = item;
-					ITEMS++;
-				}
-}
-			void remove() {
-				ARR[ITEMS--] = nullptr;
-}
-			int size() {
-				return ITEMS;
-}
-	}
-}
+namespace contain {
+template <class K> class MyContainer {
+private:
+  vector<K> ARR;
+
+public:
+  MyContainer() : ARR() {}
+  MyContainer(K arr[], int size) { ARR = vector<K>(arr, arr + size); }
+
+  void add(K item) { ARR.push_back(item); }
+  void remove(K item) {
+    ARR.erase(std::remove(ARR.begin(), ARR.end(), item), ARR.end());
+  }
+  int size() { return ARR.size(); }
+};
+} // namespace contain
