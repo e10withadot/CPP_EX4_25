@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <vector>
 using namespace std;
 #include "MyContainer.hpp"
@@ -85,5 +86,69 @@ public:
   bool hasNext() const { return IT != VEC.begin(); }
   const K &next() { return *(IT--); }
   void reset() { IT = VEC.end(); }
+};
+
+template <class K> class Order {
+private:
+  vector<K> VEC;
+  typename vector<K>::const_iterator IT;
+
+public:
+  Order(const MyContainer<K> &container) : VEC(container.ARR) {
+    IT = VEC.begin();
+  }
+  Order(const Order &other)
+      : VEC(other.VEC), IT(VEC.begin() + (other.IT - other.VEC.begin())) {}
+
+  bool hasNext() const { return IT != VEC.end(); }
+  const K &next() { return *(IT++); }
+  void reset() { IT = VEC.begin(); }
+};
+
+template <class K> class MiddleOutOrder {
+private:
+  vector<K> SORT;
+  typename vector<K>::const_iterator IT;
+
+  void buildOrder() {
+    vector<K> newsort = vector<K>(SORT.size());
+    int mid = SORT.size() / 2;
+    newsort.push_back(SORT[mid]);
+    int left = mid, right = mid;
+    bool go_left = true;
+    while (newsort.size() < SORT.size()) {
+      if (go_left) {
+        if (left > 0) {
+          --left;
+          newsort.push_back(SORT[left]);
+        }
+      } else {
+        if (right + 1 < SORT.size()) {
+          ++right;
+          newsort.push_back(SORT[right]);
+        }
+      }
+      go_left = !go_left;
+    }
+    SORT = copy(newsort);
+    delete newsort;
+  }
+
+public:
+  MiddleOutOrder(const MyContainer<K> &container) : SORT(container.ARR) {
+    sort(SORT.begin(), SORT.end());
+    buildOrder();
+    IT = SORT.begin();
+  }
+  MiddleOutOrder(const MiddleOutOrder &other)
+      : SORT(other.SORT), IT(SORT.begin() + (other.IT - other.SORT.begin())) {}
+
+  bool hasNext() const { return IT != SORT.end(); }
+  const K &next() { return *(IT++); }
+  void reset() {
+    sort(SORT.begin(), SORT.end());
+    buildOrder();
+    IT = SORT.begin();
+  }
 };
 } // namespace contain
