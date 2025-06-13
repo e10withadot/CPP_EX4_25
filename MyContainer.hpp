@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -16,5 +17,15 @@ public:
     ARR.erase(std::remove(ARR.begin(), ARR.end(), item), ARR.end());
   }
   int size() { return ARR.size(); }
+  friend ostream &operator<<(ostream &os, const MyContainer<K> &c) {
+    os << "[";
+    for (int i = 0; i < c->ARR.size(); i++) {
+      os << c->ARR[i];
+      if (i != c->ARR.size() - 1)
+        os << ", ";
+    }
+    os << "]\n";
+    return os;
+  }
 };
 } // namespace contain
