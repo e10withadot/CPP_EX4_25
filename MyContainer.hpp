@@ -34,14 +34,14 @@ private:
 public:
   DescendingOrder(const MyContainer<K> &container) : SORT(container.ARR) {
     std::sort(SORT.begin(), SORT.end());
-    IT = SORT.end();
+    IT = SORT.end() - 1;
   }
   DescendingOrder(const DescendingOrder &other)
       : SORT(other.SORT), IT(SORT.end() - (other.SORT.end() - other.IT)) {}
 
   bool hasNext() const { return IT != SORT.begin(); }
   const K &next() { return *(IT--); }
-  void reset() { IT = SORT.end(); }
+  void reset() { IT = SORT.end() - 1; }
 };
 
 template <typename K> class SideCrossOrder {
@@ -49,20 +49,21 @@ private:
   vector<K> SORT;
   typename vector<K>::const_iterator IT1;
   typename vector<K>::const_iterator IT2;
-  bool is_one = true;
+  bool is_one = false;
 
 public:
   SideCrossOrder(const MyContainer<K> &container) : SORT(container.ARR) {
     std::sort(SORT.begin(), SORT.end());
     IT1 = SORT.begin();
-    IT2 = SORT.end();
+    IT2 = SORT.end() - 1;
   }
   SideCrossOrder(const SideCrossOrder &other)
       : SORT(other.SORT), IT1(SORT.begin() + (other.IT1 - other.SORT.begin())),
         IT2(SORT.end() - (other.SORT.end() - other.IT2)) {}
 
-  bool hasNext() const { return IT1 <= IT2; }
+  bool hasNext() const { return IT1 < SORT.end() && IT2 > SORT.begin(); }
   const K &next() {
+    is_one = !is_one;
     if (is_one)
       return *(IT1++);
     else
@@ -81,14 +82,14 @@ private:
 
 public:
   ReverseOrder(const MyContainer<K> &container) : VEC(container.ARR) {
-    IT = VEC.end();
+    IT = VEC.end() - 1;
   }
   ReverseOrder(const ReverseOrder &other)
       : VEC(other.VEC), IT(VEC.end() - (other.VEC.end() - other.IT)) {}
 
   bool hasNext() const { return IT != VEC.begin(); }
   const K &next() { return *(IT--); }
-  void reset() { IT = VEC.end(); }
+  void reset() { IT = VEC.end() - 1; }
 };
 
 template <typename K> class Order {

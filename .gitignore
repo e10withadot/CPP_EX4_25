@@ -1,0 +1,7 @@
+.cache/
+build/
+.vscode/
+*.vim
+*.o
+Container
+Test

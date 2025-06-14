@@ -1,5 +1,5 @@
 # ey.gellis@gmail.com
-.PHONY: Main tests valgrind clean
+.PHONY: main tests valgrind clean
 
 CXX = g++
 CXXFLAGS = -Wall -Wextra -g
@@ -12,7 +12,7 @@ TEST = Test
 TEST_SRC = test.cpp
 TEST_OBJ = $(TEST_SRC:.cpp=.o)
 
-Main: $(PROG)
+main: $(PROG)
 	./$(PROG)
 
 %.o: %.cpp
@@ -24,11 +24,11 @@ $(PROG): $(PROG_OBJ)
 $(TEST): $(TEST_OBJ)
 	$(CXX) $(CXXFLAGS) $(TEST_OBJ) -o $@
 
-Tests: $(TEST)
+tests: $(TEST)
 	./$(TEST)
 
-Valgrind: $(PROG)
+valgrind: $(PROG)
 	Valgrind --leak-check=full --error-exitcode=1 ./$(PROG)
 
-Clean:
+clean:
 	rm -f $(PROG) $(TEST) $(PROG_OBJ) $(TEST_OBJ) 
