@@ -39,7 +39,7 @@ public:
   DescendingOrder(const DescendingOrder &other)
       : SORT(other.SORT), IT(SORT.end() - (other.SORT.end() - other.IT)) {}
 
-  bool hasNext() const { return IT != SORT.begin(); }
+  bool hasNext() const { return IT >= SORT.begin(); }
   const K &next() { return *(IT--); }
   void reset() { IT = SORT.end() - 1; }
 };
@@ -61,8 +61,10 @@ public:
       : SORT(other.SORT), IT1(SORT.begin() + (other.IT1 - other.SORT.begin())),
         IT2(SORT.end() - (other.SORT.end() - other.IT2)) {}
 
-  bool hasNext() const { return IT1 < SORT.end() && IT2 > SORT.begin(); }
+  bool hasNext() const { return IT1 <= IT2; }
   const K &next() {
+    if (IT1 == IT2)
+      return *(IT1++);
     is_one = !is_one;
     if (is_one)
       return *(IT1++);
@@ -71,7 +73,7 @@ public:
   }
   void reset() {
     IT1 = SORT.begin();
-    IT2 = SORT.end();
+    IT2 = SORT.end() - 1;
   }
 };
 
@@ -87,7 +89,7 @@ public:
   ReverseOrder(const ReverseOrder &other)
       : VEC(other.VEC), IT(VEC.end() - (other.VEC.end() - other.IT)) {}
 
-  bool hasNext() const { return IT != VEC.begin(); }
+  bool hasNext() const { return IT >= VEC.begin(); }
   const K &next() { return *(IT--); }
   void reset() { IT = VEC.end() - 1; }
 };
