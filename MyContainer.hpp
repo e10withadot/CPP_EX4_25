@@ -25,6 +25,8 @@ public:
   bool hasNext() const { return IT != SORT.end(); }
   const K &next() { return *(IT++); }
   void reset() { IT = SORT.begin(); }
+  K begin() { return SORT.begin(); }
+  K end() { return SORT.end(); }
 };
 
 template <typename K> class DescendingOrder {
@@ -43,41 +45,47 @@ public:
   bool hasNext() const { return IT >= SORT.begin(); }
   const K &next() { return *(IT--); }
   void reset() { IT = SORT.end() - 1; }
+  K begin() { return SORT.end() - 1; }
+  K end() { return SORT.begin(); }
 };
 
 template <typename K> class SideCrossOrder {
 private:
   vector<K> SORT;
-  // IT1 is ascending
-  typename vector<K>::const_iterator IT1;
-  // IT2 is descending
-  typename vector<K>::const_iterator IT2;
-  bool is_one = false;
+  typename vector<K>::const_iterator IT;
+  void buildOrder() {
+    vector<K> newsort;
+    newsort.reserve(SORT.size());
+    // IT1 is ascending
+    typename vector<K>::const_iterator IT1 = SORT.begin();
+    // IT2 is descending
+    typename vector<K>::const_iterator IT2 = SORT.end() - 1;
+    while (IT1 <= IT2) {
+      newsort.push_back(*IT1++);
+      if (IT1 > IT2)
+        break;
+      newsort.push_back(*IT2--);
+    }
+    SORT = newsort;
+  }
 
 public:
   SideCrossOrder(const MyContainer<K> &container) : SORT(container.ARR) {
     std::sort(SORT.begin(), SORT.end());
-    IT1 = SORT.begin();
-    IT2 = SORT.end() - 1;
+    buildOrder();
+    IT = SORT.begin();
   }
   SideCrossOrder(const SideCrossOrder &other)
-      : SORT(other.SORT), IT1(SORT.begin() + (other.IT1 - other.SORT.begin())),
-        IT2(SORT.end() - (other.SORT.end() - other.IT2)) {}
+      : SORT(other.SORT), IT(SORT.begin() + (other.IT - other.SORT.begin())) {}
 
-  bool hasNext() const { return IT1 <= IT2; }
-  const K &next() {
-    if (IT1 == IT2)
-      return *(IT1++);
-    is_one = !is_one;
-    if (is_one)
-      return *(IT1++);
-    else
-      return *(IT2--);
-  }
+  bool hasNext() const { return IT != SORT.end(); }
+  const K &next() { return *(IT++); }
   void reset() {
-    IT1 = SORT.begin();
-    IT2 = SORT.end() - 1;
+    buildOrder();
+    IT = SORT.begin();
   }
+  K begin() { return SORT.begin(); }
+  K end() { return SORT.end(); }
 };
 
 template <typename K> class ReverseOrder {
@@ -95,6 +103,8 @@ public:
   bool hasNext() const { return IT >= VEC.begin(); }
   const K &next() { return *(IT--); }
   void reset() { IT = VEC.end() - 1; }
+  K begin() { return VEC.end() - 1; }
+  K end() { return VEC.begin(); }
 };
 
 template <typename K> class Order {
@@ -112,6 +122,8 @@ public:
   bool hasNext() const { return IT != VEC.end(); }
   const K &next() { return *(IT++); }
   void reset() { IT = VEC.begin(); }
+  K begin() { return VEC.begin(); }
+  K end() { return VEC.end(); }
 };
 
 template <typename K> class MiddleOutOrder {
@@ -152,6 +164,8 @@ public:
     buildOrder();
     IT = SORT.begin();
   }
+  K begin() { return SORT.begin(); }
+  K end() { return SORT.end(); }
 };
 template <typename K> class MyContainer {
   friend class AscendingOrder<K>;
@@ -177,7 +191,7 @@ public:
    * Removes every instance of the item in the container.
    */
   void remove(K item) {
-    K it = find(ARR.begin(), ARR.end(), item);
+    typename vector<K>::const_iterator it = find(ARR.begin(), ARR.end(), item);
     if (ARR.size() == 0 || it == ARR.end())
       throw invalid_argument("Nothing to remove.");
     ARR.erase(std::remove(ARR.begin(), ARR.end(), item), ARR.end());
