@@ -25,8 +25,8 @@ public:
   bool hasNext() const { return IT != SORT.end(); }
   const K &next() { return *(IT++); }
   void reset() { IT = SORT.begin(); }
-  K begin() { return SORT.begin(); }
-  K end() { return SORT.end(); }
+  typename vector<K>::const_iterator begin() { return SORT.begin(); }
+  typename vector<K>::const_iterator end() { return SORT.end(); }
 };
 
 template <typename K> class DescendingOrder {
@@ -45,8 +45,8 @@ public:
   bool hasNext() const { return IT >= SORT.begin(); }
   const K &next() { return *(IT--); }
   void reset() { IT = SORT.end() - 1; }
-  K begin() { return SORT.end() - 1; }
-  K end() { return SORT.begin(); }
+  typename vector<K>::const_iterator begin() { return SORT.end() - 1; }
+  typename vector<K>::const_iterator end() { return SORT.begin(); }
 };
 
 template <typename K> class SideCrossOrder {
@@ -61,9 +61,11 @@ private:
     // IT2 is descending
     typename vector<K>::const_iterator IT2 = SORT.end() - 1;
     while (IT1 <= IT2) {
+      // iterate and take from beginning
       newsort.push_back(*IT1++);
       if (IT1 > IT2)
         break;
+      // iterate and take from end
       newsort.push_back(*IT2--);
     }
     SORT = newsort;
@@ -84,8 +86,8 @@ public:
     buildOrder();
     IT = SORT.begin();
   }
-  K begin() { return SORT.begin(); }
-  K end() { return SORT.end(); }
+  typename vector<K>::const_iterator begin() { return SORT.begin(); }
+  typename vector<K>::const_iterator end() { return SORT.end(); }
 };
 
 template <typename K> class ReverseOrder {
@@ -103,8 +105,8 @@ public:
   bool hasNext() const { return IT >= VEC.begin(); }
   const K &next() { return *(IT--); }
   void reset() { IT = VEC.end() - 1; }
-  K begin() { return VEC.end() - 1; }
-  K end() { return VEC.begin(); }
+  typename vector<K>::const_iterator begin() { return VEC.end() - 1; }
+  typename vector<K>::const_iterator end() { return VEC.begin(); }
 };
 
 template <typename K> class Order {
@@ -122,8 +124,8 @@ public:
   bool hasNext() const { return IT != VEC.end(); }
   const K &next() { return *(IT++); }
   void reset() { IT = VEC.begin(); }
-  K begin() { return VEC.begin(); }
-  K end() { return VEC.end(); }
+  typename vector<K>::const_iterator begin() { return VEC.begin(); }
+  typename vector<K>::const_iterator end() { return VEC.end(); }
 };
 
 template <typename K> class MiddleOutOrder {
@@ -164,8 +166,8 @@ public:
     buildOrder();
     IT = SORT.begin();
   }
-  K begin() { return SORT.begin(); }
-  K end() { return SORT.end(); }
+  typename vector<K>::const_iterator begin() { return SORT.begin(); }
+  typename vector<K>::const_iterator end() { return SORT.end(); }
 };
 template <typename K> class MyContainer {
   friend class AscendingOrder<K>;

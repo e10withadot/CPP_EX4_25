@@ -26,6 +26,11 @@ TEST_CASE("MyContainer basic operations") {
     container.remove(2);
     CHECK(container.size() == 2);
   }
+
+  SUBCASE("Begin and end operations") {
+    int arr[] = {1, 2, 3, 4, 5};
+    MyContainer<int> container(arr, 5);
+  }
 }
 
 TEST_CASE("Iterator tests") {
@@ -38,6 +43,8 @@ TEST_CASE("Iterator tests") {
     CHECK(iter.next() == 1);
     CHECK(iter.next() == 1);
     CHECK(iter.next() == 2);
+    CHECK(*iter.begin() == 1);
+    CHECK(*(iter.end() - 1) == 9);
   }
 
   SUBCASE("DescendingOrder iterator") {
@@ -46,6 +53,8 @@ TEST_CASE("Iterator tests") {
     CHECK(iter.next() == 9);
     CHECK(iter.next() == 6);
     CHECK(iter.next() == 5);
+    CHECK(*iter.begin() == 9);
+    CHECK(*(iter.end() - 1) == 1);
   }
 
   SUBCASE("SideCrossOrder iterator") {
@@ -55,6 +64,8 @@ TEST_CASE("Iterator tests") {
     CHECK(iter.next() == 9);
     CHECK(iter.next() == 1);
     CHECK(iter.next() == 6);
+    CHECK(*iter.begin() == 1);
+    CHECK(*(iter.end() - 1) == 4);
   }
 
   SUBCASE("Order iterator (original order)") {
@@ -63,6 +74,8 @@ TEST_CASE("Iterator tests") {
     CHECK(iter.next() == 3);
     CHECK(iter.next() == 1);
     CHECK(iter.next() == 4);
+    CHECK(*iter.begin() == 3);
+    CHECK(*(iter.end() - 1) == 6);
   }
 
   SUBCASE("ReverseOrder iterator") {
@@ -71,6 +84,8 @@ TEST_CASE("Iterator tests") {
     CHECK(iter.next() == 6);
     CHECK(iter.next() == 2);
     CHECK(iter.next() == 9);
+    CHECK(*iter.begin() == 6);
+    CHECK(*(iter.end() - 1) == 3);
   }
 
   SUBCASE("MiddleOutOrder iterator") {
@@ -80,6 +95,8 @@ TEST_CASE("Iterator tests") {
     CHECK(iter.next() == 4);
     CHECK(iter.next() == 5);
     CHECK(iter.next() == 1);
+    CHECK(*iter.begin() == 1);
+    CHECK(*(iter.end() - 1) == 6);
   }
 }
 
