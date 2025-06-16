@@ -54,7 +54,7 @@ TEST_CASE("Iterator tests") {
     CHECK(iter.next() == 6);
     CHECK(iter.next() == 5);
     CHECK(*iter.begin() == 9);
-    CHECK(*(iter.end() - 1) == 1);
+    CHECK(*iter.end() == 1);
   }
 
   SUBCASE("SideCrossOrder iterator") {
@@ -85,7 +85,7 @@ TEST_CASE("Iterator tests") {
     CHECK(iter.next() == 2);
     CHECK(iter.next() == 9);
     CHECK(*iter.begin() == 6);
-    CHECK(*(iter.end() - 1) == 3);
+    CHECK(*iter.end() == 3);
   }
 
   SUBCASE("MiddleOutOrder iterator") {

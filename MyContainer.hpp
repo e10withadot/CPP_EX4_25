@@ -141,10 +141,10 @@ private:
     long unsigned int left = mid - 1, right = mid + 1;
     bool go_left = true;
     while (newsort.size() < SORT.size()) {
-      if (go_left)
+      if (go_left && left < SORT.size())
         // if left, move left and add to container
         newsort.push_back(SORT[left--]);
-      else if (right <= SORT.size())
+      else if (right < SORT.size())
         // if right, move right and add to container
         newsort.push_back(SORT[right++]);
       go_left = !go_left;
