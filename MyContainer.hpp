@@ -1,3 +1,4 @@
+// ey.gellis@gmail.com
 #ifndef MYCONTAINER_HPP
 #define MYCONTAINER_HPP
 

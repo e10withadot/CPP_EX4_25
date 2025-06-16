@@ -1,3 +1,4 @@
+// ey.gellis@gmail.com
 #include "MyContainer.hpp"
 #include <iostream>
 
