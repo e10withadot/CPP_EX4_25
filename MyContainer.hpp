@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <stdexcept>
 #include <vector>
 using namespace std;
 
@@ -176,6 +177,9 @@ public:
    * Removes every instance of the item in the container.
    */
   void remove(K item) {
+    K it = find(ARR.begin(), ARR.end(), item);
+    if (ARR.size() == 0 || it == ARR.end())
+      throw invalid_argument("Nothing to remove.");
     ARR.erase(std::remove(ARR.begin(), ARR.end(), item), ARR.end());
   }
 
