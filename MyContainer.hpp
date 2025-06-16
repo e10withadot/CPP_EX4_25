@@ -47,7 +47,9 @@ public:
 template <typename K> class SideCrossOrder {
 private:
   vector<K> SORT;
+  // IT1 is ascending
   typename vector<K>::const_iterator IT1;
+  // IT2 is descending
   typename vector<K>::const_iterator IT2;
   bool is_one = false;
 
@@ -119,22 +121,17 @@ private:
   void buildOrder() {
     vector<K> newsort;
     newsort.reserve(SORT.size());
-    int mid = SORT.size() / 2;
+    int mid = (SORT.size() - 1) / 2;
     newsort.push_back(SORT[mid]);
-    long unsigned int left = mid, right = mid;
+    long unsigned int left = mid - 1, right = mid + 1;
     bool go_left = true;
     while (newsort.size() < SORT.size()) {
-      if (go_left) {
-        if (left > 0) {
-          --left;
-          newsort.push_back(SORT[left]);
-        }
-      } else {
-        if (right + 1 < SORT.size()) {
-          ++right;
-          newsort.push_back(SORT[right]);
-        }
-      }
+      if (go_left)
+        // if left, move left and add to container
+        newsort.push_back(SORT[left--]);
+      else if (right <= SORT.size())
+        // if right, move right and add to container
+        newsort.push_back(SORT[right++]);
       go_left = !go_left;
     }
     SORT = newsort;
@@ -142,7 +139,6 @@ private:
 
 public:
   MiddleOutOrder(const MyContainer<K> &container) : SORT(container.ARR) {
-    sort(SORT.begin(), SORT.end());
     buildOrder();
     IT = SORT.begin();
   }
@@ -152,7 +148,6 @@ public:
   bool hasNext() const { return IT != SORT.end(); }
   const K &next() { return *(IT++); }
   void reset() {
-    sort(SORT.begin(), SORT.end());
     buildOrder();
     IT = SORT.begin();
   }

@@ -48,6 +48,15 @@ TEST_CASE("Iterator tests") {
     CHECK(iter.next() == 5);
   }
 
+  SUBCASE("SideCrossOrder iterator") {
+    SideCrossOrder<int> iter(container);
+    CHECK(iter.hasNext() == true);
+    CHECK(iter.next() == 1);
+    CHECK(iter.next() == 9);
+    CHECK(iter.next() == 1);
+    CHECK(iter.next() == 6);
+  }
+
   SUBCASE("Order iterator (original order)") {
     Order<int> iter(container);
     CHECK(iter.hasNext() == true);
@@ -62,6 +71,15 @@ TEST_CASE("Iterator tests") {
     CHECK(iter.next() == 6);
     CHECK(iter.next() == 2);
     CHECK(iter.next() == 9);
+  }
+
+  SUBCASE("MiddleOutOrder iterator") {
+    MiddleOutOrder<int> iter(container);
+    CHECK(iter.hasNext() == true);
+    CHECK(iter.next() == 1);
+    CHECK(iter.next() == 4);
+    CHECK(iter.next() == 5);
+    CHECK(iter.next() == 1);
   }
 }
 
